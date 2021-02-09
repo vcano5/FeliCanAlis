@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>FeliCanAlis</title>
+	<link rel="stylesheet" href="style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.2/TweenMax.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.6.1/lodash.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+</head>
+<body>
+	<div class="btn group d-flex justify-content-center" role="group" aria-label="Botones de navegación">
+		<button class="btn btn-outline-primary" id="prev"><</button>
+		<button class="btn btn-dark mx-2" id="switcher-tv">Turn on/off</button>
+		<button class="btn btn-outline-primary" id="next">></button>
+	</div>
+	<section class="screen">
+		
+		<div class="content">
+		
+			<audio src="./tvc.mp3" id="changeTV"></audio>
+			<video src="./mosh.webm" id="mosh" autoplay loop></video>
+			<video id="videoLocoChon" src="/" autoplay></video>
+			<!--<iframe class="responsive-iframe" allow='autoplay' src="https://www.youtube.com/embed/tgbNymZ7vqY"></iframe> -->
+			<!--<div class="container">  
+		</div>-->
+	</div>
+	</section>
+	
+	<script src="./main.js"></script>
+</body>
+</html>
