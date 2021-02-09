@@ -50,10 +50,18 @@
 	$(document).on('click', SELECTOR_SWITCHER_TV, function() {
 	  toggleSwitcherTV();
 	});
-  })();
+})();
 
 
-  var videos = [
+var rawbase = 'https://raw.githubusercontent.com/';
+var jsonloc = 'vcano5/FeliCanAlis/videos/videos.json'
+var videos;
+$.getJSON(rawbase + jsonloc, (data) => {
+	console.log(data);
+	videos = data;
+})
+
+  /*var videos = [
 	"http://mirrors.standaloneinstaller.com/video-sample/jellyfish-25-mbps-hd-hevc.mp4",
 	"http://mirrors.standaloneinstaller.com/video-sample/Panasonic_HDC_TM_700_P_50i.mp4",
 	"http://mirrors.standaloneinstaller.com/video-sample/star_trails.mp4",
@@ -61,7 +69,7 @@
 	"https://cdn.videvo.net/videvo_files/video/premium/2020-08/small_watermarked/200309_02_atomic%20archive_collection_8_009_preview.webm",
 	"https://cdn.videvo.net/videvo_files/video/premium/video0229/small_watermarked/02_smoke_detector_05_install_detector_preview.webm",
 	"https://cdn.videvo.net/videvo_files/video/premium/2020-08/small_watermarked/200309_02_atomic%20archive_collection_3_003_preview.webm"
-]
+]*/
 
 document.querySelector('button#prev').addEventListener('click', () => {
  	cambiarVideo()
