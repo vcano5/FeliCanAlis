@@ -52,10 +52,7 @@
 	});
   })();
 
-var rawbase = 'https://raw.githubusercontent.com/';
-var jsonloc = ''
-var videos = []
-
+var videos = [];
 document.querySelector('button#prev').addEventListener('click', () => {
  	cambiarVideo()
 })
