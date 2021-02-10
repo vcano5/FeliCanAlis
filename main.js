@@ -47,34 +47,46 @@
 })();
 
 
-var videos;
+var videos = {};
 $.getJSON('https://felicanal.herokuapp.com/api/videos', (data) => {
-	videos = data;
+	for(video of data) {
+		videos[video['_id']] = video;
+	}
 })
 
 function cambiarVideo() {
-	if(!desliza) {
-		desliza = true;
-		document.querySelector('span#desliza').style.display = 'none';
+	//console.log(videos)
+	if(Object.keys(videos).length > 0) {
+		if(!desliza) {
+			desliza = true;
+			document.querySelector('span#desliza').style.display = 'none';
+		}
+		var video = document.querySelector('video#videoLocoChon');
+		var division = document.querySelector('div#panel');
+		division.style.display = 'none';
+		video.style.display = 'none';
+		var audio = new Audio('./tvc.mp3')
+		audio.volume = Math.random() * 0.3;
+		audio.pitch
+		//console.log(videos);
+		let x = Math.floor(Math.random() * Object.keys(videos).length);
+		let id = Object.keys(videos)[x];
+		let videoInfo = videos[id];
+		var videoURL = videoInfo.videoUrl;
+		video.setAttribute('src', videoURL);
+		video.addEventListener('loadeddata', () => {
+			//console.log(videoInfo)
+			document.querySelector('#nombre').innerHTML = `${videoInfo.nombre}`
+			document.querySelector('#desc').innerHTML = `${videoInfo.descripcion}`
+			division.style.display = '';
+			video.style.display = ''; 
+			delete videos[id];
+		})
 	}
-	var video = document.querySelector('video#videoLocoChon');
-	var division = document.querySelector('div#panel');
-	division.style.display = 'none';
-	video.style.display = 'none';
-	var audio = new Audio('./tvc.mp3')
-	audio.volume = Math.random() * 0.3;
-	audio.pitch
-	console.log(videos);
-	var x = Math.floor(Math.random() * videos.length);
-	var videoURL = videos[x].videoUrl;
-
-	video.setAttribute('src', videoURL);
-	video.addEventListener('loadeddata', () => {
-		document.querySelector('#nombre').innerHTML = `${videos[x].nombre}`
-		document.querySelector('#desc').innerHTML = `${videos[x].descripcion}`
-		division.style.display = '';
-		video.style.display = ''; 
-	})
+	else {
+		alert('Ya viste todos los videos disponibles 😢')
+	}
+	
 }
 
 function pausarVideo() {
@@ -97,3 +109,9 @@ setTimeout(() => {
 		document.querySelector('span#desliza').style.display = 'none';
 	}
 }, 5000)
+
+
+var bv = document.querySelector('video#videoLocoChon');
+bv.addEventListener('ended', () => {
+	cambiarVideo();
+})
