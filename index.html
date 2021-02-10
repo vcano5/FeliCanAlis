@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
 	<meta charset="UTF-8">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
@@ -14,18 +14,16 @@
 	<script src="https://hammerjs.github.io/dist/hammer.min.js"></script>
 </head>
 <body>
-	<button class="fixeadotop m-2 btn btn-outline-light" id="switcher-tv">📺</button>
-	<section class="screen">
-		<script async defer src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.2"></script>
-		<div id="panel">
-			<p id="nombre"></p>
-			<p id="desc"></p>
-		</div>
-		<span class="text-break align-middle" id="desliza">Desliza hacia arriba comenzar a ver</span>
-		<div class="content">
-		<video id="videoLocoChon" src="/" autoplay></video>
+	<div id="slider"></div>
+	<div id="panel" style="display: none;">
+		<p id="nombre"></p>
+		<span data-toggle="tooltip" data-placement="bottom" id="desc"></p>
 	</div>
-	</section>
+	<span class="text-break align-middle" id="desliza">Desliza hacia arriba comenzar a ver</span>
+	<div class="content">
+		<video class="vid-border" id="contenido" autoplay></video>
+	</div>
+	<img src="./swipeup.svg" id="swipeupsvg" class="tracking-out-contract-bck-top">
 	
 	<script src="./main.js"></script>
 </body>

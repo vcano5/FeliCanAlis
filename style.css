@@ -1,21 +1,21 @@
 video {
-    position: fixed; right: 0; bottom: 0;
-    min-width: 100%; min-height: 100%;
-    width: auto; height: auto; z-index: -100;
-    /* background: url(/polina.png) no-repeat; */
-    background-size: cover;
+	position: fixed;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: -100;
+    transform: translateX(-50%) translateY(-50%);
+  	background-size: cover;
+  	transition: 1s opacity;
 }
 
 body {
-	font-family: sans-serif;
 	background-color: #111;
 }
-a {
-	color: #ff5f2e;
-}
-a:hover {
-	color: #fcbe32;
-}
+
 
 
 
@@ -30,7 +30,7 @@ h1 {
 	height: 100%;
 	transform: translate(-50%, -50%);
 	content: " ";
-	z-index: -99;
+	z-index: -1099;
 	overflow: hidden;
 	color: #e1eef6;
 }
@@ -40,8 +40,6 @@ body {
 }
 
 #desliza {
-	/* position: fixed;
-	margin: 25%; */
 	position: absolute;
 	top: 50%;
 	left: 50%;
@@ -49,20 +47,58 @@ body {
 	color: ivory;
 	font-size: 5vh;
 	text-align: center;
+	z-index: 100;
 }
 
 #panel {
 	position: fixed;
-	bottom: 0;
+	bottom: 0%;
 	width: 100%;
+	height: 20%;
 	opacity: 1.3;
+	color: azure;
 	background-color: rgba(0,0,0,0.6);
+	padding: 2vh;
 }
 
-.fixeadotop {
-	position: fixed;
-    top: 50%;
-    right: 0;
-    /* left: 0; */
-    z-index: 1030;
+p#nombre {
+	color: white;
+	font-size: 5vh;
 }
+
+span#desc {
+	color: rgb(177, 177, 177);;
+	font-size: 2vh;
+}
+
+#slider {
+	width: 100%;
+	height: 100%;
+	overflow-y: 100%;
+	overflow-x: 100%;
+	position: absolute;
+	z-index: 10000;
+}
+
+
+
+.tracking-out-contract-bck-top {
+	animation: tracking-out-contract-bck-top 0.8s cubic-bezier(0.550, 0.085, 0.680, 0.530) 1s infinite backwards;
+}
+
+ @keyframes tracking-out-contract-bck-top {
+	0% {
+	  transform: translateZ(0) translateY(0);
+	  opacity: 1;
+	}
+	60% {
+	  opacity: 1;
+	}
+	100% {
+	  letter-spacing: -0.5em;
+	  transform: translateZ(-500px) translateY(-10em);
+	  opacity: 0;
+	}
+  }
+  
+
