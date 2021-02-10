@@ -26,73 +26,74 @@
 	}
 	
 	function toggleSwitcherTV() {
-	  if (isTurnedOn) {
-		//document.querySelector('div#botones').style.display = 'none';
-		
-		
+	  if (isTurnedOn) {	
 		timeline.restart();
 		pausarVideo();
 
 	  }
 	  
 	  if (!isTurnedOn) {
-		//document.querySelector('div#botones').style.display = '';
+
 		timeline.reverse();
 		cambiarVideo();
 	  }
 	  
 	  isTurnedOn = !isTurnedOn;
 	}
-	
-	// Initialize
 	$(document).ready(buildTimeline);
-	// Bindings
 	$(document).on('click', SELECTOR_SWITCHER_TV, function() {
 	  toggleSwitcherTV();
 	});
 })();
 
 
-var rawbase = 'https://raw.githubusercontent.com/';
-var jsonloc = 'vcano5/FeliCanAlis/videos/videos.json'
 var videos;
-$.getJSON(rawbase + jsonloc, (data) => {
-	console.log(data);
+$.getJSON('https://felicanal.herokuapp.com/api/videos', (data) => {
 	videos = data;
 })
 
-  /*var videos = [
-	"http://mirrors.standaloneinstaller.com/video-sample/jellyfish-25-mbps-hd-hevc.mp4",
-	"http://mirrors.standaloneinstaller.com/video-sample/Panasonic_HDC_TM_700_P_50i.mp4",
-	"http://mirrors.standaloneinstaller.com/video-sample/star_trails.mp4",
-	"http://techslides.com/demos/sample-videos/small.mp4",
-	"https://cdn.videvo.net/videvo_files/video/premium/2020-08/small_watermarked/200309_02_atomic%20archive_collection_8_009_preview.webm",
-	"https://cdn.videvo.net/videvo_files/video/premium/video0229/small_watermarked/02_smoke_detector_05_install_detector_preview.webm",
-	"https://cdn.videvo.net/videvo_files/video/premium/2020-08/small_watermarked/200309_02_atomic%20archive_collection_3_003_preview.webm"
-]*/
-
-document.querySelector('button#prev').addEventListener('click', () => {
- 	cambiarVideo()
-})
-
-document.querySelector('button#next').addEventListener('click', () => {
-	cambiarVideo()
-})
-
 function cambiarVideo() {
+	if(!desliza) {
+		desliza = true;
+		document.querySelector('span#desliza').style.display = 'none';
+	}
 	var video = document.querySelector('video#videoLocoChon');
+	var division = document.querySelector('div#panel');
+	division.style.display = 'none';
 	video.style.display = 'none';
 	var audio = new Audio('./tvc.mp3')
 	audio.volume = Math.random() * 0.3;
 	audio.pitch
-	audio.play();
-	video.setAttribute('src',videos[Math.floor(Math.random() * videos.length)]);
-	setTimeout(() => {
+	console.log(videos);
+	var x = Math.floor(Math.random() * videos.length);
+	var videoURL = videos[x].videoUrl;
+
+	video.setAttribute('src', videoURL);
+	video.addEventListener('loadeddata', () => {
+		document.querySelector('#nombre').innerHTML = `${videos[x].nombre}`
+		document.querySelector('#desc').innerHTML = `${videos[x].descripcion}`
+		division.style.display = '';
 		video.style.display = ''; 
-	}, Math.floor(Math.random() * 2500))
+	})
 }
 
 function pausarVideo() {
 	var video = document.querySelector('video#videoLocoChon');
 	video.pause();
 }
+
+let hammer = new Hammer(document.querySelector('video#videoLocoChon'));
+hammer.get('swipe').set({ direction: Hammer.DIRECTION_VERTICAL });
+hammer.on('swipeup', function(e){
+	e.preventDefault();
+    cambiarVideo()
+});
+
+var desliza = false;
+
+setTimeout(() => {
+	if(!desliza) {
+		desliza = true;
+		document.querySelector('span#desliza').style.display = 'none';
+	}
+}, 5000)

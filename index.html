@@ -11,23 +11,21 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.2/TweenMax.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.6.1/lodash.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+	<script src="https://hammerjs.github.io/dist/hammer.min.js"></script>
 </head>
 <body>
 	<div class="btn group d-flex justify-content-center" role="group" aria-label="Botones de navegación">
-		<button class="btn btn-outline-primary" id="prev"><</button>
-		<button class="btn btn-dark mx-2" id="switcher-tv">Turn on/off</button>
-		<button class="btn btn-outline-primary" id="next">></button>
+		<button class="btn btn-dark mx-2" id="switcher-tv">📺</button>
 	</div>
 	<section class="screen">
-		
+		<script async defer src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.2"></script>
+		<div id="panel">
+			<p id="nombre"></p>
+			<p id="desc"></p>
+		</div>
+		<span class="display-4 text-break" id="desliza">Desliza hacia arriba comenzar a ver</span>
 		<div class="content">
-		
-			<audio src="./tvc.mp3" id="changeTV"></audio>
-			<video src="./mosh.webm" id="mosh" autoplay loop></video>
-			<video id="videoLocoChon" src="/" autoplay></video>
-			<!--<iframe class="responsive-iframe" allow='autoplay' src="https://www.youtube.com/embed/tgbNymZ7vqY"></iframe> -->
-			<!--<div class="container">  
-		</div>-->
+		<video id="videoLocoChon" src="/" autoplay></video>
 	</div>
 	</section>
 	
