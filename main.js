@@ -5,6 +5,7 @@ function shuffleArray(array) {
 	}
 }
 
+
 var i = -1;
 var pausado = true;
 
