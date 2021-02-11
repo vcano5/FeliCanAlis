@@ -1,117 +1,128 @@
-(function() {
-	var SELECTOR_SCREEN_ELEMENT = '.screen';
-	var SELECTOR_SWITCHER_TV = '#switcher-tv';
-	
-	var isTurnedOn = true;
-	
-	var timeline;
-	
-	function buildTimeline() {
-	  timeline = new TimelineMax({
-		paused: true
-	  });
-	  
-	  timeline
-	  .to(SELECTOR_SCREEN_ELEMENT, .2, {
-		width: '100vw',
-		height: '2px',
-		background: '#ffffff',
-		ease: Power2.easeOut
-	  })
-	  .to(SELECTOR_SCREEN_ELEMENT, .2, {
-		width: '0',
-		height: '0',
-		background: '#ffffff'
-	  });
+function shuffleArray(array) {
+	for (let i = array.length - 1; i > 0; i--) {
+		const j = Math.floor(Math.random() * (i + 1));
+		[array[i], array[j]] = [array[j], array[i]];
+	}
+}
+
+var i = -1;
+var pausado = true;
+
+
+	var videos = [];
+	$.getJSON('https://felicanal.herokuapp.com/api/videos', (data) => {
+		videos = data.sort( () => .5 - Math.random() );;	
+		console.log(videos)
+	})
+
+	function cambiarVideo(direccion) {
+		if(pausado == true) {
+			document.querySelector('video#contenido').style.filter = 'blur(0px)';
+		}
+		pausado = false;
+
+		if(direccion == false && i < 1) {
+			return;
+		}
+		else if(direccion == true && i >= videos.length -1) {
+			alert('Ya viste todos los videos disponibles.')
+			return
+		}
+		else if(direccion == false) {
+			i -= 1;
+			if(!desliza) {
+				desliza = true;
+				document.querySelector('img#swipeupsvg').style.display = "none";
+				document.querySelector('span#desliza').style.display = 'none';
+			}
+			var video = document.querySelector('video#contenido');
+			var division = document.querySelector('div#panel');
+			division.style.display = 'none';
+			video.style.display = 'none';
+			let videoInfo = videos[i];
+			var videoURL = videoInfo.videoUrl;
+			video.setAttribute('src', videoURL);
+			video.addEventListener('loadeddata', () => {
+				document.querySelector('#nombre').innerHTML = `${videoInfo.nombre}`
+				document.querySelector('#desc').innerHTML = `${videoInfo.descripcion}`
+				document.querySelector('#desc').setAttribute('title', videoInfo.descripcion)
+				division.style.display = '';
+				video.style.display = ''; 
+			})
+		}
+		else {
+			i += 1;
+			if(!desliza) {
+				desliza = true;
+				document.querySelector('img#swipeupsvg').style.display = "none";
+				document.querySelector('span#desliza').style.display = 'none';
+			}
+			var video = document.querySelector('video#contenido');
+			var division = document.querySelector('div#panel');
+			division.style.display = 'none';
+			video.style.display = 'none';
+			let videoInfo = videos[i];
+			var videoURL = videoInfo.videoUrl;
+			video.setAttribute('src', videoURL);
+			video.addEventListener('loadeddata', () => {
+				document.querySelector('#nombre').innerHTML = `${videoInfo.nombre}`
+				document.querySelector('#desc').innerHTML = `${videoInfo.descripcion}`
+				document.querySelector('#desc').setAttribute('title', videoInfo.descripcion)
+				division.style.display = '';
+				video.style.display = ''; 
+			})
+		}
+	}
+
+	function pausarVideo() {
+		pausado = true;
+		var video = document.querySelector('video#contenido');
+		video.pause();
+
+		video.style.filter = 'blur(10px)';
 	}
 	
-	function toggleSwitcherTV() {
-	  if (isTurnedOn) {	
-		timeline.restart();
-		pausarVideo();
-
-	  }
-	  
-	  if (!isTurnedOn) {
-
-		timeline.reverse();
-		cambiarVideo();
-	  }
-	  
-	  isTurnedOn = !isTurnedOn;
+	function resumirVideo() {
+		pausado = false;
+		var video = document.querySelector('video#contenido');
+		video.play();
+		video.style.filter = 'blur(0px)';
 	}
-	$(document).ready(buildTimeline);
-	$(document).on('click', SELECTOR_SWITCHER_TV, function() {
-	  toggleSwitcherTV();
+
+	let hammer = new Hammer(document.querySelector('div#slider'));
+	hammer.get('swipe').set({ direction: Hammer.DIRECTION_VERTICAL });
+	hammer.on('swipeup', function(e){
+		e.preventDefault();
+		cambiarVideo(true)
 	});
-})();
+	hammer.on('swipedown', function(e){
+		e.preventDefault();
+		cambiarVideo(false)
+	});
 
+	hammer.on('tap', function(e) {
+		console.log(e)
+		if(pausado && i >= 0) {
+			resumirVideo();
+		}
+		else {
+			pausarVideo();
+		}
+		e.preventDefault();
+	})
 
-var videos = {};
-$.getJSON('https://felicanal.herokuapp.com/api/videos', (data) => {
-	for(video of data) {
-		videos[video['_id']] = video;
-	}
-})
+	var desliza = false;
 
-function cambiarVideo() {
-	//console.log(videos)
-	if(Object.keys(videos).length > 0) {
+	setTimeout(() => {
 		if(!desliza) {
 			desliza = true;
+			document.querySelector('img#swipeupsvg').style.display = "none";
 			document.querySelector('span#desliza').style.display = 'none';
 		}
-		var video = document.querySelector('video#videoLocoChon');
-		var division = document.querySelector('div#panel');
-		division.style.display = 'none';
-		video.style.display = 'none';
-		var audio = new Audio('./tvc.mp3')
-		audio.volume = Math.random() * 0.3;
-		audio.pitch
-		//console.log(videos);
-		let x = Math.floor(Math.random() * Object.keys(videos).length);
-		let id = Object.keys(videos)[x];
-		let videoInfo = videos[id];
-		var videoURL = videoInfo.videoUrl;
-		video.setAttribute('src', videoURL);
-		video.addEventListener('loadeddata', () => {
-			//console.log(videoInfo)
-			document.querySelector('#nombre').innerHTML = `${videoInfo.nombre}`
-			document.querySelector('#desc').innerHTML = `${videoInfo.descripcion}`
-			division.style.display = '';
-			video.style.display = ''; 
-			delete videos[id];
-		})
-	}
-	else {
-		alert('Ya viste todos los videos disponibles 😢')
-	}
-	
-}
-
-function pausarVideo() {
-	var video = document.querySelector('video#videoLocoChon');
-	video.pause();
-}
-
-let hammer = new Hammer(document.querySelector('video#videoLocoChon'));
-hammer.get('swipe').set({ direction: Hammer.DIRECTION_VERTICAL });
-hammer.on('swipeup', function(e){
-	e.preventDefault();
-    cambiarVideo()
-});
-
-var desliza = false;
-
-setTimeout(() => {
-	if(!desliza) {
-		desliza = true;
-		document.querySelector('span#desliza').style.display = 'none';
-	}
-}, 5000)
+	}, 15000)
 
 
-var bv = document.querySelector('video#videoLocoChon');
-bv.addEventListener('ended', () => {
-	cambiarVideo();
-})
+	var bv = document.querySelector('video#contenido');
+	bv.addEventListener('ended', () => {
+		cambiarVideo(true);
+	})
